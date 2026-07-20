@@ -1,4 +1,5 @@
 import { Product, IProduct } from '../models/product.model';
+import { FilterQuery } from 'mongoose';
 
 export interface GetProductsOptions {
   search?: string;
@@ -27,7 +28,7 @@ export const getProducts = async (options: GetProductsOptions = {}): Promise<Get
     limit = 6,
   } = options;
 
-  const query: any = {};
+  const query: FilterQuery<IProduct> = {};
 
   if (search) {
     query.$or = [
@@ -41,9 +42,10 @@ export const getProducts = async (options: GetProductsOptions = {}): Promise<Get
   }
 
   if (minPrice !== undefined || maxPrice !== undefined) {
-    query.price = {};
-    if (minPrice !== undefined) query.price.$gte = minPrice;
-    if (maxPrice !== undefined) query.price.$lte = maxPrice;
+    const priceQuery: Record<string, number> = {};
+    if (minPrice !== undefined) priceQuery.$gte = minPrice;
+    if (maxPrice !== undefined) priceQuery.$lte = maxPrice;
+    query.price = priceQuery as unknown as number;
   }
 
   const skip = (page - 1) * limit;

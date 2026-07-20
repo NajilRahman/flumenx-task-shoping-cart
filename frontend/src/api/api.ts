@@ -35,7 +35,7 @@ export interface PaginatedProducts {
   total: number;
 }
 
-export const fetchProducts = async (params: any = {}): Promise<PaginatedProducts> => {
+export const fetchProducts = async (params: Record<string, string | number | boolean> = {}): Promise<PaginatedProducts> => {
   const response = await client.get<PaginatedProducts>('/products', { params });
   return response.data;
 };

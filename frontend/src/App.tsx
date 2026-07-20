@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
   fetchProducts,
@@ -19,6 +20,7 @@ function App() {
   const [isAddingId, setIsAddingId] = useState<string | null>(null);
   const [isUpdatingId, setIsUpdatingId] = useState<string | null>(null);
 
+  // Search & Filter State
   const [search, setSearch] = useState<string>('');
   const [inStock, setInStock] = useState<boolean>(false);
   const [minPrice, setMinPrice] = useState<string>('');
@@ -27,8 +29,19 @@ function App() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [limit] = useState<number>(6);
 
+  // Mobile View Toggling State ('shop' or 'cart')
   const [view, setView] = useState<'shop' | 'cart'>('shop');
   const [showFilters, setShowFilters] = useState<boolean>(false);
+
+  const getErrorMessage = (err: unknown, defaultMsg: string): string => {
+    if (axios.isAxiosError(err)) {
+      return err.response?.data?.message || err.message || defaultMsg;
+    }
+    if (err instanceof Error) {
+      return err.message;
+    }
+    return defaultMsg;
+  };
 
   const loadData = async (
     currentPage = page,
@@ -40,7 +53,7 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const params: any = {
+      const params: Record<string, string | number | boolean> = {
         page: currentPage,
         limit,
       };
@@ -58,9 +71,9 @@ function App() {
       setTotalPages(paginatedResult.pages);
       setPage(paginatedResult.page);
       setCartItems(fetchedCart);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to fetch data:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to connect to the server. Make sure the backend is running.');
+      setError(getErrorMessage(err, 'Failed to connect to the server. Make sure the backend is running.'));
     } finally {
       setLoading(false);
     }
@@ -86,8 +99,8 @@ function App() {
       await addToCart(productId, quantity);
       const updatedCart = await fetchCart();
       setCartItems(updatedCart);
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Error adding product to cart');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Error adding product to cart'));
     } finally {
       setIsAddingId(null);
     }

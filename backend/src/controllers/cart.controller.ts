@@ -10,7 +10,7 @@ export const getCart = async (_req: Request, res: Response, next: NextFunction):
   }
 };
 
-export const addToCart = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+export const addToCart = async (req: Request, res: Response): Promise<void> => {
   try {
     const { productId, quantity } = req.body;
 
@@ -32,12 +32,13 @@ export const addToCart = async (req: Request, res: Response, _next: NextFunction
 
     const cartItem = await cartService.addProductToCart(productId, parsedQuantity);
     res.status(201).json(cartItem);
-  } catch (error: any) {
-    res.status(400).json({ message: error.message || 'Error adding product to cart' });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Error adding product to cart';
+    res.status(400).json({ message });
   }
 };
 
-export const updateCart = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+export const updateCart = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const { quantity } = req.body;
@@ -55,17 +56,19 @@ export const updateCart = async (req: Request, res: Response, _next: NextFunctio
 
     const cartItem = await cartService.updateCartItemQuantity(id, parsedQuantity);
     res.status(200).json(cartItem);
-  } catch (error: any) {
-    res.status(400).json({ message: error.message || 'Error updating cart item quantity' });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Error updating cart item quantity';
+    res.status(400).json({ message });
   }
 };
 
-export const deleteCart = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+export const deleteCart = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     await cartService.removeCartItem(id);
     res.status(200).json({ message: 'Item removed from cart successfully' });
-  } catch (error: any) {
-    res.status(400).json({ message: error.message || 'Error removing item from cart' });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Error removing item from cart';
+    res.status(400).json({ message });
   }
 };

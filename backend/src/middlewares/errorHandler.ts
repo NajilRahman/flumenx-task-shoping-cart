@@ -1,10 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 
+interface CustomError {
+  status?: number;
+  message?: string;
+}
+
 export const errorHandler = (
-  err: any,
+  err: CustomError,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ): void => {
   console.error('Unhandled Error:', err);
 
@@ -12,6 +17,10 @@ export const errorHandler = (
   const message = err.message || 'Internal Server Error';
 
   res.status(status).json({
-    message: message,
+    message,
   });
+
+  if (res.headersSent) {
+    next(err);
+  }
 };
