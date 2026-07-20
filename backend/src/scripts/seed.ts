@@ -110,6 +110,20 @@ const products = [
     price: 39.99,
     stock: 22,
     image: "https://images.unsplash.com/photo-1632292224971-0d45778bd364?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+  },
+  {
+    name: "PixelView 4K Webcam",
+    description: "Ultra HD 4K webcam with dual noise-reducing microphones and privacy shutter.",
+    price: 119.99,
+    stock: 16,
+    image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+  },
+  {
+    name: "SonicPulse Portable Speaker",
+    description: "Waterproof IPX7 Bluetooth speaker with deep bass and 18-hour continuous playtime.",
+    price: 69.99,
+    stock: 28,
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
   }
 ];
 
@@ -125,7 +139,7 @@ const seedDB = async () => {
 
     console.log('Inserting seed products...');
     await Product.insertMany(products);
-    console.log('Database seeded successfully with 15 products.');
+    console.log(`Database seeded successfully with ${products.length} products.`);
 
     process.exit(0);
   } catch (error) {
