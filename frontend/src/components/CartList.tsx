@@ -25,7 +25,19 @@ export const CartList: React.FC<CartListProps> = ({
 
   if (cartItems.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-100 p-8 text-center flex flex-col items-center justify-center min-h-[400px] shadow-xs">
+      <div className="bg-white rounded-2xl border border-slate-100 p-8 text-center flex flex-col items-center justify-center min-h-[400px] shadow-xs relative h-full">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-4 left-4 text-slate-500 hover:text-violet-600 lg:hidden cursor-pointer flex items-center gap-1.5 font-bold text-sm p-1"
+            type="button"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Back to Shop</span>
+          </button>
+        )}
         <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center mb-4 text-slate-400">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -40,12 +52,29 @@ export const CartList: React.FC<CartListProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col h-full">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-        <h2 className="text-lg font-bold text-slate-800">Shopping Cart</h2>
-        <span className="bg-violet-100 text-violet-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-          {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}
-        </span>
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col h-full relative">
+      <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="text-slate-500 hover:text-violet-600 lg:hidden cursor-pointer flex items-center gap-1.5 font-bold text-sm"
+            type="button"
+            aria-label="Back to Shop"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Shop</span>
+          </button>
+        )}
+        <div className="flex items-center justify-between flex-grow">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold text-slate-800">Shopping Cart</h2>
+            <span className="bg-violet-100 text-violet-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+              {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Cart Items List */}
@@ -82,7 +111,7 @@ export const CartList: React.FC<CartListProps> = ({
                     <button
                       onClick={() => onUpdateQuantity(item._id, item.quantity - 1)}
                       disabled={item.quantity <= 1 || isItemUpdating}
-                      className="w-6 h-6 rounded-md flex items-center justify-center text-slate-500 hover:bg-white hover:shadow-xs disabled:opacity-20 transition-all font-bold"
+                      className="w-6 h-6 rounded-md flex items-center justify-center text-slate-500 hover:bg-white hover:shadow-xs disabled:opacity-20 transition-all font-bold cursor-pointer"
                       type="button"
                     >
                       &minus;
@@ -93,7 +122,7 @@ export const CartList: React.FC<CartListProps> = ({
                     <button
                       onClick={() => onUpdateQuantity(item._id, item.quantity + 1)}
                       disabled={item.quantity >= product.stock || isItemUpdating}
-                      className="w-6 h-6 rounded-md flex items-center justify-center text-slate-500 hover:bg-white hover:shadow-xs disabled:opacity-20 transition-all font-bold"
+                      className="w-6 h-6 rounded-md flex items-center justify-center text-slate-500 hover:bg-white hover:shadow-xs disabled:opacity-20 transition-all font-bold cursor-pointer"
                       type="button"
                     >
                       &#43;
@@ -140,6 +169,7 @@ export const CartList: React.FC<CartListProps> = ({
         <button
           disabled
           className="w-full bg-slate-100 text-slate-400 font-semibold py-3 px-4 rounded-xl border border-slate-200/50 cursor-not-allowed text-center text-sm"
+          type="button"
         >
           Checkout Disabled
         </button>
