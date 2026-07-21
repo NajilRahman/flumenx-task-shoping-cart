@@ -32,7 +32,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
 
   return (
     <div className="bg-white rounded-xl sm:rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group h-full">
-      {/* Product Image */}
       <div className="relative aspect-square sm:aspect-video w-full overflow-hidden bg-slate-100">
         <img
           src={product.image}
@@ -55,7 +54,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
         ) : null}
       </div>
 
-      {/* Product Info */}
       <div className="p-3 sm:p-5 flex flex-col flex-grow">
         <div className="flex-grow">
           <h3 className="text-sm sm:text-lg font-bold text-slate-800 line-clamp-1 mb-0.5 sm:mb-1 group-hover:text-violet-600 transition-colors">
@@ -66,7 +64,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
           </p>
         </div>
 
-        {/* Price & Stock info */}
         <div className="flex items-center justify-between mb-2 sm:mb-4">
           <div>
             <p className="text-[9px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider">Price</p>
@@ -78,10 +75,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
           </div>
         </div>
 
-        {/* Quantity Selector & Add Button */}
         {!isOutOfStock ? (
           <div className="space-y-2 sm:space-y-3 mt-auto">
-            {/* Quantity Selector */}
             <div className="flex items-center justify-between bg-slate-50 border border-slate-200/80 rounded-lg sm:rounded-xl p-0.5 sm:p-1">
               <span className="text-[10px] sm:text-xs font-semibold text-slate-500 pl-1.5 sm:pl-3">Qty</span>
               <div className="flex items-center gap-0.5 sm:gap-1">
@@ -107,7 +102,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
               </div>
             </div>
 
-            {/* Add to Cart Button */}
             <button
               onClick={handleAdd}
               disabled={isAdding}

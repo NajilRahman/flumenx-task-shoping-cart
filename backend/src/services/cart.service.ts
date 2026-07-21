@@ -24,7 +24,6 @@ export const addProductToCart = async (productId: string, quantity: number): Pro
     throw new Error(`Insufficient stock. Only ${product.stock} items available`);
   }
 
-  // Check if product is already in the cart
   let cartItem = await Cart.findOne({ productId });
 
   if (cartItem) {
@@ -48,7 +47,6 @@ export const updateCartItemQuantity = async (id: string, quantity: number): Prom
     throw new Error('Quantity must be at least 1');
   }
 
-  // Search by either cart item ID or product ID
   let cartItem = await Cart.findById(id);
   if (!cartItem) {
     if (Types.ObjectId.isValid(id)) {
@@ -74,7 +72,6 @@ export const updateCartItemQuantity = async (id: string, quantity: number): Prom
 };
 
 export const removeCartItem = async (id: string): Promise<ICart | null> => {
-  // Search and delete by either cart item ID or product ID
   let cartItem = await Cart.findById(id);
   if (!cartItem) {
     if (Types.ObjectId.isValid(id)) {

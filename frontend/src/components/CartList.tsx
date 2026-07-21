@@ -16,7 +16,6 @@ export const CartList: React.FC<CartListProps> = ({
   isUpdatingId,
   onClose,
 }) => {
-  // Calculate cart total and total quantity
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const cartTotal = cartItems.reduce((acc, item) => {
     const price = item.productId?.price || 0;
@@ -77,25 +76,22 @@ export const CartList: React.FC<CartListProps> = ({
         </div>
       </div>
 
-      {/* Cart Items List */}
       <div className="divide-y divide-slate-100 overflow-y-auto max-h-[500px] flex-grow pr-1 my-2">
         {cartItems.map((item) => {
           const product = item.productId;
-          if (!product) return null; // Gracefully handle missing product info
+          if (!product) return null;
           
           const isItemUpdating = isUpdatingId === item._id || isUpdatingId === product._id;
           const itemTotal = product.price * item.quantity;
 
           return (
             <div key={item._id} className="py-4 flex gap-4 items-start group">
-              {/* Product Thumbnail */}
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-16 h-16 object-cover rounded-xl bg-slate-50 border border-slate-100"
               />
 
-              {/* Item details */}
               <div className="flex-grow min-w-0">
                 <h4 className="text-sm font-bold text-slate-800 truncate mb-0.5 group-hover:text-violet-600 transition-colors">
                   {product.name}
@@ -104,9 +100,7 @@ export const CartList: React.FC<CartListProps> = ({
                   ${product.price.toFixed(2)} each
                 </p>
 
-                {/* Controls & Remove */}
                 <div className="flex items-center justify-between">
-                  {/* Quantity selector */}
                   <div className="flex items-center border border-slate-200 rounded-lg p-0.5 bg-slate-50">
                     <button
                       onClick={() => onUpdateQuantity(item._id, item.quantity - 1)}
@@ -129,7 +123,6 @@ export const CartList: React.FC<CartListProps> = ({
                     </button>
                   </div>
 
-                  {/* Remove Button */}
                   <button
                     onClick={() => onRemoveItem(item._id)}
                     disabled={isItemUpdating}
@@ -144,7 +137,6 @@ export const CartList: React.FC<CartListProps> = ({
                 </div>
               </div>
 
-              {/* Item Total Price */}
               <div className="text-right flex-shrink-0">
                 <span className="text-sm font-bold text-slate-900 block">
                   ${itemTotal.toFixed(2)}
@@ -155,7 +147,6 @@ export const CartList: React.FC<CartListProps> = ({
         })}
       </div>
 
-      {/* Cart Summary */}
       <div className="border-t border-slate-100 pt-4 mt-auto space-y-3">
         <div className="flex items-center justify-between text-sm text-slate-500">
           <span>Subtotal Quantity</span>

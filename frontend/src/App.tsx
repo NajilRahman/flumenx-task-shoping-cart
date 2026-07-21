@@ -19,16 +19,14 @@ function App() {
   const [isAddingId, setIsAddingId] = useState<string | null>(null);
   const [isUpdatingId, setIsUpdatingId] = useState<string | null>(null);
 
-  // Search & Filter State
   const [search, setSearch] = useState<string>('');
   const [inStock, setInStock] = useState<boolean>(false);
   const [minPrice, setMinPrice] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [limit] = useState<number>(6); // Show 6 products per page
+  const [limit] = useState<number>(6);
 
-  // Mobile View Toggling State ('shop' or 'cart')
   const [view, setView] = useState<'shop' | 'cart'>('shop');
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
@@ -68,12 +66,10 @@ function App() {
     }
   };
 
-  // Load data when page or stock checkbox changes
   useEffect(() => {
     loadData(page, search, inStock, minPrice, maxPrice);
   }, [page, inStock]);
 
-  // Handle typing inputs with 400ms debounce
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setPage(1);
@@ -129,7 +125,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <button 
@@ -147,7 +142,6 @@ function App() {
             </h1>
           </button>
           <div className="flex items-center gap-3">
-            {/* Header Cart Badge navigation for mobile */}
             <button
               onClick={() => setView((v) => (v === 'cart' ? 'shop' : 'cart'))}
               type="button"
@@ -167,9 +161,7 @@ function App() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
-        {/* Error Alert */}
         {error && (
           <div className="mb-6 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-xl flex items-start gap-3 shadow-xs">
             <div className="text-rose-500 mt-0.5">
@@ -193,13 +185,8 @@ function App() {
           </div>
         )}
 
-        {/* Two Column Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          
-          {/* Products Column (Only visible in 'shop' view on mobile, always visible on desktop) */}
           <div className={`lg:col-span-2 space-y-6 ${view === 'shop' ? 'block' : 'hidden lg:block'}`}>
-            
-            {/* Toggle Filters Button for Mobile */}
             <div className="sm:hidden mb-4">
               <button
                 type="button"
@@ -213,7 +200,6 @@ function App() {
               </button>
             </div>
 
-            {/* Search & Filters Panel */}
             <div className={`bg-white rounded-2xl border border-slate-200/80 p-5 mb-8 shadow-xs space-y-4 ${showFilters ? 'block' : 'hidden sm:block'}`}>
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">Filters & Search</h3>
@@ -233,7 +219,6 @@ function App() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* Search Input */}
                 <div className="relative">
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Search</label>
                   <div className="relative">
@@ -250,7 +235,6 @@ function App() {
                   </div>
                 </div>
 
-                {/* Min Price */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Min Price ($)</label>
                   <input
@@ -263,7 +247,6 @@ function App() {
                   />
                 </div>
 
-                {/* Max Price */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Max Price ($)</label>
                   <input
@@ -276,7 +259,6 @@ function App() {
                   />
                 </div>
 
-                {/* Stock Filter Checkbox */}
                 <div className="flex items-end pb-2">
                   <label className="flex items-center gap-2.5 cursor-pointer select-none">
                     <input
@@ -330,7 +312,6 @@ function App() {
                   ))}
                 </div>
 
-                {/* Pagination Controls */}
                 {totalPages > 1 && (
                   <div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
                     <button
@@ -374,7 +355,6 @@ function App() {
             )}
           </div>
 
-          {/* Cart Column (Only visible in 'cart' view on mobile, always visible on desktop side-panel) */}
           <div className={`lg:col-span-1 ${view === 'cart' ? 'block' : 'hidden lg:block'}`}>
             <CartList
               cartItems={cartItems}
